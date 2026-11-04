@@ -57,7 +57,7 @@ cp config.env.example config.env   # leave OPERATA_API_KEY as the placeholder
 ./scripts/deploy-gateway.sh        # ...then verify, deploy-lambda and run-incident as above
 ```
 
-The stand-in answers the tool names and arguments in the [Operata MCP tool reference](https://docs.operata.com/docs/guides-mcp-tools) at the time of writing (2026-11), listed in `standin/tools.json`, behind the same `Authorization: Bearer` check, so the gateway, the credential provider, the Lambda and Claude all run for real. Only the data is fixed: one ISP in one city dragging MOS down, and every response says it is sample data. When you have a key, paste it into `config.env` and re-run `deploy-gateway.sh`; the gateway switches to Operata in place. The stand-in stays deployed at its public URL until you run `teardown.sh`.
+The stand-in answers the tool names and arguments in the [Operata MCP tool reference](https://docs.operata.com/docs/guides-mcp-tools) at the time of writing (2026-11), listed in `standin/tools.json`, behind the same `Authorization: Bearer` check, so the gateway, the credential provider, the Lambda and Claude all run for real. Only the data is fixed: one ISP in one city dragging MOS down, and every tool result says it is sample data. When you have a key, paste it into `config.env` and re-run `deploy-gateway.sh`; the gateway switches to Operata in place. The stand-in stays deployed at its public URL until you run `teardown.sh`.
 
 ## Configuration
 
@@ -109,7 +109,7 @@ Deletes the Lambda, target, gateway, credential provider, and both roles, plus t
 - An API key is fixed to the group it was created in. `switch_group` to a different group returns `403 "API key access is restricted to its own group"`.
 - Operata rate-limits to 100 requests per minute per key, shared across every caller of the gateway.
 - The gateway indexes the tool list when the target is created. After Operata changes a tool, re-run `deploy-gateway.sh` or call `SynchronizeGatewayTargets`.
-- The stand-in needs a public Lambda function URL, guarded by its own key, which sits in the function's environment variables. Requests with the wrong key are still invoked and billed, so concurrency is capped at 5. Run `teardown.sh` when you have finished trying it. Some organisations block public function URLs; there, use a real Operata key.
+- The stand-in needs a public Lambda function URL, guarded by its own key, which sits in the function's environment variables. Requests with the wrong key are still invoked and billed, so `deploy-standin.sh` reserves a concurrency of 5 where the account has spare concurrency, and warns if it cannot. Run `teardown.sh` when you have finished trying it. Some organisations block public function URLs; there, use a real Operata key.
 - `deploy-gateway.sh` sets `exceptionLevel: DEBUG` so target errors come back readable. Remove it before production, because it exposes upstream detail in responses.
 
 ## Troubleshooting

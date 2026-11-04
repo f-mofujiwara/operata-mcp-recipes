@@ -2,8 +2,8 @@
 
 It serves twelve tool names and arguments copied from the Operata MCP tool reference
 (https://docs.operata.com/docs/guides-mcp-tools, as of 2026-11), listed in tools.json, and
-answers every call with a fixed sample: one ISP in one city dragging MOS down. Every response
-says it is sample data. Nothing here talks to Operata.
+answers every call with a fixed sample: one ISP in one city dragging MOS down. Every tool
+result says it is sample data. Nothing here talks to Operata.
 
 It checks `Authorization: Bearer <key>` the way the API-key endpoint does, so the gateway's
 credential provider is exercised exactly as it will be against Operata.
